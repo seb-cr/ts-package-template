@@ -9,6 +9,12 @@
     "type": "git",
     "url": "git+https://github.com/seb-cr/ts-package-template.git"
   },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "prepare": "npm run clean && npm run build",
     "build": "tsc -p tsconfig-build.json",

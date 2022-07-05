@@ -29,6 +29,9 @@ echo '
           key: npm-cache-${{ hashFiles('"'"'package-lock.json'"'"') }}
           restore-keys: npm-cache-
 
+      - name: Use npm@8
+        run: npm i -g npm@8
+
       - name: Install dependencies
         run: npm ci
 

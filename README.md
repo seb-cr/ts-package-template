@@ -62,3 +62,5 @@ This template repo is not set up to publish. Follow the steps below to automate 
 3. Configure your repo to use the Squash and Merge strategy.
 
    Go to **Settings** > **General** > **Pull Requests** and untick *Allow merge commits* and *Allow rebase merging*, so that only *Allow squash merging* is enabled. Also enable *Default to PR title for squash merge commits*.
+
+If you haven't already done so, make sure you've also protected your main branch. Any commits pushed to this branch will now trigger a release.

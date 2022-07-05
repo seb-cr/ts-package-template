@@ -1,11 +1,24 @@
 #!/bin/bash
 set -e
 
+# default to releasing the `master` branch
+BRANCH=${BRANCH:-master}
+
+YELLOW=$"\x1b[33m"
+RESET=$"\x1b[0m"
+
+# 1. Install Semantic Release as a dev dependency
+
+echo -e "$YELLOW- Installing Semantic Release$RESET"
 npm i -D semantic-release
 
-if [ ! "${BRANCH:-master}" = master ]; then
-  # `semantic-release` looks for the `master` branch by default
-  # https://github.com/semantic-release/semantic-release/blob/master/docs/usage/configuration.md#branches
+# 2. Configure the release branch if using something other than `master`
+
+# `semantic-release` looks for the `master` branch by default
+# https://github.com/semantic-release/semantic-release/blob/master/docs/usage/configuration.md#branches
+
+if [ ! "$BRANCH" = master ]; then
+  echo -e "$YELLOW- Configuring Semantic Release for branch '$BRANCH'$RESET"
   echo "branches:
   - '+([0-9])?(.{+([0-9]),x}).x'
   - $BRANCH
@@ -15,10 +28,16 @@ if [ ! "${BRANCH:-master}" = master ]; then
   - { name: 'alpha', prerelease: true }" > .releaserc.yml
 fi
 
-echo '
+# 3. Add a release job to the GitHub Actions workflow
+
+echo -e "$YELLOW- Adding release job to .github/workflows/main.yml$RESET"
+if grep release: .github/workflows/main.yml >/dev/null; then
+  echo -e "$YELLOW  ! Release job already exists; skipping this step$RESET"
+else
+  echo '
   release:
     name: Release
-    if: github.ref == '"'refs/heads/${BRANCH:-master}'"'
+    if: github.ref == '"'refs/heads/$BRANCH'"'
     needs:
       - test
       - lint
@@ -52,7 +71,11 @@ echo '
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}' >> .github/workflows/main.yml
+fi
 
+# 4. Enforce semantic PR titles
+
+echo -e "$YELLOW- Adding PR check workflow to .github/workflows/pr.yml$RESET"
 echo 'name: PR checks
 
 on: pull_request
@@ -69,3 +92,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ' > .github/workflows/pr.yml
+
+# Success!
+
+echo
+echo -e "${YELLOW}Semantic Release is now set up to release on push to $BRANCH.
+
+Please follow the remaining steps to add your npm token and configure
+your repo's pull requests. Make sure you've also protected your $BRANCH
+branch if you haven't already done so.$RESET"

@@ -3,10 +3,22 @@ set -e
 
 npm i -D semantic-release
 
+if [ ! "${BRANCH:-master}" = master ]; then
+  # `semantic-release` looks for the `master` branch by default
+  # https://github.com/semantic-release/semantic-release/blob/master/docs/usage/configuration.md#branches
+  echo "branches:
+  - '+([0-9])?(.{+([0-9]),x}).x'
+  - $BRANCH
+  - next
+  - next-major
+  - { name: 'beta', prerelease: true }
+  - { name: 'alpha', prerelease: true }" > .releaserc.yml
+fi
+
 echo '
   release:
     name: Release
-    if: github.ref == '"'"'refs/heads/master'"'"'
+    if: github.ref == '"'refs/heads/${BRANCH:-master}'"'
     needs:
       - test
       - lint

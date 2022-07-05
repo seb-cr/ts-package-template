@@ -49,7 +49,11 @@ We need separate configs for building and development. VS Code needs the `tests`
 
 This template repo is not set up to publish. Follow the steps below to automate releases with [Semantic Release](https://semantic-release.gitbook.io).
 
-1. Run `./scripts/set-up-semantic-release.sh`
+1. Run the setup script. Set `BRANCH` to the name of your main branch.
+
+   ```sh
+   BRANCH=main ./scripts/set-up-semantic-release.sh
+   ```
 
 2. Add your npm token to your repo.
 

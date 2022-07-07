@@ -7,6 +7,20 @@ BRANCH=${BRANCH:-master}
 YELLOW=$"\x1b[33m"
 RESET=$"\x1b[0m"
 
+is_new_gh_repo=$(
+  git remote get-url origin \
+  | grep -F github.com \
+  | grep -v seb-cr/ts-package-template
+)
+[ "$is_new_gh_repo" ] && echo "Detected that this is a GitHub repo"
+
+is_gh_installed=$(
+  which gh >/dev/null \
+  && gh auth status &>/dev/null \
+  && echo yes
+)
+[ "$is_gh_installed" ] && echo "Detected the GitHub CLI"
+
 # 1. Install Semantic Release as a dev dependency
 
 echo -e "$YELLOW- Installing Semantic Release$RESET"
@@ -92,6 +106,22 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ' > .github/workflows/pr.yml
+
+# 5. Configure repo settings
+
+if [ "$is_new_gh_repo" -a "$is_gh_installed" ]; then
+  echo -e "$YELLOW- Configuring your pull request settings on GitHub$RESET"
+  gh api \
+    --method PATCH \
+    -H "Accept: application/vnd.github+json" \
+    /repos/:owner/:repo \
+    -F allow_squash_merge=true \
+    -F use_squash_pr_title_as_default=true \
+    -F allow_merge_commit=false \
+    -F allow_rebase_merge=false \
+    >/dev/null \
+    || echo -e "\n${YELLOW}Something went wrong :( See gh output above.$RESET\n"
+fi
 
 # Success!
 

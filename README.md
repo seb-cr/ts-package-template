@@ -4,18 +4,20 @@ A template for TypeScript packages.
 
 ## Usage
 
-Copy the contents of this repo into your project, then follow this checklist.
+Click the **Use this template** button, or copy the contents of this repo into your project as the initial commit.
+
+Then follow this checklist to get set up.
 
 - [ ] Update fields in `package.json`:
   - `name`
   - `description`
   - `author`
   - `repository`
-- [ ] Add your code in `src`
-- [ ] Add your tests in `tests`
 - [ ] Optionally, [set up Semantic Release](#publish-using-semantic-release)
 - [ ] Delete `scripts`
 - [ ] Replace this readme with your own
+- [ ] Add your code in `src`
+- [ ] Add your tests in `tests`
 
 ## Development notes
 
@@ -60,6 +62,8 @@ This template repo is not set up to publish. Follow the steps below to automate 
    Go to **Settings** > **Secrets** > **Actions**. Create a new secret called `NPM_TOKEN`.
 
 3. Configure your repo to use the Squash and Merge strategy.
+
+   > If you've installed the [GitHub CLI](https://cli.github.com), the setup script will do this step for you.
 
    Go to **Settings** > **General** > **Pull Requests** and untick *Allow merge commits* and *Allow rebase merging*, so that only *Allow squash merging* is enabled. Also enable *Default to PR title for squash merge commits*.
 

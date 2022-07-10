@@ -1,9 +1,6 @@
 #!/bin/bash
 set -e
 
-# default to releasing the `master` branch
-BRANCH=${BRANCH:-master}
-
 YELLOW=$"\x1b[33m"
 RESET=$"\x1b[0m"
 
@@ -27,6 +24,11 @@ echo -e "$YELLOW- Installing Semantic Release$RESET"
 npm i -D semantic-release
 
 # 2. Configure the release branch if using something other than `master`
+
+# default to releasing the current branch
+if [ -z "${BRANCH:-}" ]; then
+  BRANCH=$(git rev-parse --abbrev-ref HEAD)
+fi
 
 # `semantic-release` looks for the `master` branch by default
 # https://github.com/semantic-release/semantic-release/blob/master/docs/usage/configuration.md#branches

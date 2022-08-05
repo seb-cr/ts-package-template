@@ -31,11 +31,14 @@ if [ -z "${BRANCH:-}" ]; then
 fi
 
 # `semantic-release` looks for the `master` branch by default
-# https://github.com/semantic-release/semantic-release/blob/master/docs/usage/configuration.md#branches
+# https://semantic-release.gitbook.io/semantic-release/usage/configuration#branches
 
 if [ ! "$BRANCH" = master ]; then
   echo -e "$YELLOW- Configuring Semantic Release for branch '$BRANCH'$RESET"
-  echo "branches:
+  echo "# Semantic Release config
+# See https://semantic-release.gitbook.io/semantic-release/usage/configuration
+
+branches:
   - '+([0-9])?(.{+([0-9]),x}).x'
   - $BRANCH
   - next

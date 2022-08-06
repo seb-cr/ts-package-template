@@ -6,18 +6,11 @@ A template for TypeScript packages.
 
 Click the **Use this template** button, or copy the contents of this repo into your project as the initial commit.
 
-Then follow this checklist to get set up.
+Then run the setup script to configure the template for your project:
 
-- [ ] Update fields in `package.json`:
-  - `name`
-  - `description`
-  - `author`
-  - `repository`
-- [ ] Optionally, [set up Semantic Release](#publish-using-semantic-release)
-- [ ] Delete `scripts`
-- [ ] Replace this readme with your own
-- [ ] Add your code in `src`
-- [ ] Add your tests in `tests`
+```sh
+./scripts/setup.ts
+```
 
 ## Development notes
 
@@ -51,11 +44,7 @@ We need separate configs for building and development. VS Code needs the `tests`
 
 This template repo is not set up to publish. Follow the steps below to automate releases with [Semantic Release](https://semantic-release.gitbook.io).
 
-1. Run the setup script.
-
-   ```sh
-   ./scripts/set-up-semantic-release.sh
-   ```
+1. In the setup script, say yes to `Set up Semantic Release?`
 
 2. Add your npm token to your repo.
 
@@ -63,7 +52,7 @@ This template repo is not set up to publish. Follow the steps below to automate 
 
 3. Configure your repo to use the Squash and Merge strategy.
 
-   > If you've installed the [GitHub CLI](https://cli.github.com), the setup script will do this step for you.
+   > The setup script will attempt to this for you if your Git client is configured to use an auth token over HTTPS.
 
    Go to **Settings** > **General** > **Pull Requests** and untick *Allow merge commits* and *Allow rebase merging*, so that only *Allow squash merging* is enabled. Also enable *Default to PR title for squash merge commits*.
 

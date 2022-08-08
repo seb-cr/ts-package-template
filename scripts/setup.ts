@@ -21,13 +21,17 @@ export type Answers = {
 
 const warnings: string[] = [];
 
-export function sh(cmd: string, options?: ExecOptions): Promise<string> {
+export function sh(cmd: string, options?: ExecOptions & { trim?: boolean }): Promise<string> {
   return new Promise((resolve, reject) => {
     exec(cmd, options, (error, stdout) => {
       if (error) {
         reject(error);
       } else {
-        resolve(stdout && stdout.toString().trim());
+        let output = stdout && stdout.toString();
+        if (output && (options?.trim ?? true)) {
+          output = output.trim();
+        }
+        resolve(output);
       }
     });
   });
@@ -47,7 +51,7 @@ export async function step(name: string, action: () => void | Promise<void>) {
   }
 }
 
-(async () => {
+export async function setup(initialAnswers?: Partial<Answers>) {
   const rootDir = dirname(__dirname);
   process.chdir(rootDir);
 
@@ -105,7 +109,7 @@ export async function step(name: string, action: () => void | Promise<void>) {
       message: 'Commit these changes when done?',
       default: true,
     },
-  ]);
+  ], initialAnswers);
 
   let nextSteps = [
     `Add your code in ${chalk.blueBright('src')}`,
@@ -131,6 +135,7 @@ export async function step(name: string, action: () => void | Promise<void>) {
       '@octokit/rest',
     ];
     rmSync('scripts', { recursive: true });
+    rmSync('tests/setup.spec.ts');
     await sh(`npm un ${dependencies.join(' ')}`);
   });
 
@@ -168,7 +173,11 @@ export async function step(name: string, action: () => void | Promise<void>) {
 
   console.log('Next steps:\n');
   console.log(`- ${nextSteps.join('\n- ')}\n`);
-})().catch((error) => {
-  console.error(error);
-  process.exitCode = 1;
-});
+}
+
+if (module === require.main) {
+  setup().catch((error) => {
+    console.error(error);
+    process.exitCode = 1;
+  });
+}

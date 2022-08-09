@@ -46,12 +46,18 @@ function useTempGitUsername(): string {
   let oldName: string;
 
   before('configure git username', async () => {
-    oldName = await sh('git config user.name');
+    try {
+      oldName = await sh('git config user.name');
+    } catch {
+      oldName = '';
+    }
     await sh(`git config user.name "${name}"`);
   });
 
   after('restore git username', async () => {
-    await sh(`git config user.name "${oldName}"`);
+    if (oldName) {
+      await sh(`git config user.name "${oldName}"`);
+    }
   });
 
   return name;

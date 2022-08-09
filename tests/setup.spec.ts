@@ -1,4 +1,5 @@
 import { existsSync, readFileSync } from 'fs';
+import { basename, dirname } from 'path';
 
 import { expect } from 'chai';
 import chalk from 'chalk';
@@ -77,8 +78,10 @@ function useTempGitBranch(): string {
     await sh('git checkout main');
     await sh(`git branch -D ${branch}`);
     await sh('npm i');
-    process.stdout.moveCursor(0, -1);
-    process.stdout.clearLine(0);
+    if (process.stdout.isTTY) {
+      process.stdout.moveCursor(0, -1);
+      process.stdout.clearLine(0);
+    }
   });
 
   return branch;
@@ -114,14 +117,33 @@ describe('setup script', () => {
       });
     });
 
-    it('should pre-fill everything except description', () => {
-      expect(result).to.contain('? Package name: ts-package-template\n');
+    it('should default package name to the directory name', () => {
+      const dir = basename(dirname(__dirname));
+      expect(result).to.contain(`? Package name: ${dir}\n`);
+    });
+
+    it('should not provide a default description', () => {
       expect(result).to.contain('? Description: \n');
+    });
+
+    it('should default author to the git username', () => {
       expect(result).to.contain(`? Author: ${author}\n`);
+    });
+
+    it('should default license to MIT', () => {
       expect(result).to.contain('? License: MIT\n');
-      expect(result).to.contain('? Repository: https://github.com/seb-cr/ts-package-template.git\n');
-      expect(result).to.contain('? Set up Semantic Release? Yes\n');
+    });
+
+    it('should default repository to the git remote', async () => {
+      const gitRemote = await sh('git remote get-url origin');
+      expect(result).to.contain(`? Repository: ${gitRemote}\n`);
+    });
+
+    it('should default the release branch to the current git branch', () => {
       expect(result).to.contain(`? Main release branch: ${branch}\n`);
+    });
+
+    it('should commit by default', () => {
       expect(result).to.contain('? Commit these changes when done? Yes\n');
     });
 

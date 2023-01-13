@@ -44,7 +44,7 @@ const GITHUB_ACTIONS_RELEASE_JOB = (branch: string) => `
       - uses: actions/cache@v3
         with:
           path: .npm-cache
-          key: npm-cache-\${{ hashFiles('"'"'package-lock.json'"'"') }}
+          key: npm-cache-\${{ hashFiles('package-lock.json') }}
           restore-keys: npm-cache-
 
       - name: Use npm@8

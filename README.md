@@ -6,9 +6,10 @@ A template for TypeScript packages.
 
 Click the **Use this template** button, or copy the contents of this repo into your project as the initial commit.
 
-Then run the setup script to configure the template for your project:
+Then install dependencies and run the setup script to configure the template for your project:
 
 ```sh
+npm i
 ./scripts/setup.ts
 ```
 

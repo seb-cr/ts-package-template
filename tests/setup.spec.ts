@@ -170,6 +170,57 @@ describe('setup script', () => {
     });
   });
 
+  describe('changes to package.json', () => {
+    const params = {
+      name: 'example-name',
+      author: 'Example Author',
+      description: 'An example package',
+      license: 'example-license',
+      repository: 'https://example.com/package',
+    };
+
+    useTempGitBranch();
+
+    let packageJson: any;
+
+    before('run setup script', async function () {
+      this.timeout(60_000);
+      await run({
+        packageName: params.name,
+        packageAuthor: params.author,
+        packageDescription: params.description,
+        packageLicense: params.license,
+        packageRepository: params.repository,
+        semanticRelease: false,
+        commit: false,
+      });
+    });
+
+    before('read package.json', () => {
+      packageJson = JSON.parse(readFileSync('package.json').toString());
+    });
+
+    it('should set name', () => {
+      expect(packageJson.name).to.equal(params.name);
+    });
+
+    it('should set author', () => {
+      expect(packageJson.author).to.equal(params.author);
+    });
+
+    it('should set description', () => {
+      expect(packageJson.description).to.equal(params.description);
+    });
+
+    it('should set license', () => {
+      expect(packageJson.license).to.equal(params.license);
+    });
+
+    it('should set repository', () => {
+      expect(packageJson.repository.url).to.equal(`git+${params.repository}`);
+    });
+  });
+
   describe('no Semantic Release', () => {
     useTempGitBranch();
 

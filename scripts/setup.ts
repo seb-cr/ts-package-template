@@ -123,7 +123,7 @@ export async function setup(initialAnswers?: Partial<Answers>) {
     packageJson.description = answers.packageDescription;
     packageJson.author = answers.packageAuthor;
     packageJson.license = answers.packageLicense;
-    packageJson.name = answers.packageName;
+    packageJson.repository.url = `git+${answers.packageRepository}`;
     writeFileSync('package.json', JSON.stringify(packageJson, null, 2));
   });
 

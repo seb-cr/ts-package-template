@@ -42,6 +42,14 @@ inquirer.prompt = async (questions: Question[], answers: any) => {
   return result;
 };
 
+let baseBranch: string;
+
+function saveBaseBranch() {
+  before('save base branch name', async () => {
+    baseBranch = await sh('git rev-parse HEAD');
+  });
+}
+
 function useTempGitUsername(): string {
   const name = `Test user ${Math.floor(Math.random() * 1E6)}`;
   let oldName: string;
@@ -71,11 +79,11 @@ function useTempGitBranch(): string {
     await sh(`git checkout -b ${branch}`);
   });
 
-  after('revert to main branch', async function () {
+  after('revert to base branch', async function () {
     this.timeout(60_000);
     console.log('    reverting changes...');
     await sh('git reset --hard');
-    await sh('git checkout main');
+    await sh(`git checkout ${baseBranch}`);
     await sh(`git branch -D ${branch}`);
     await sh('npm i');
     if (process.stdout.isTTY) {
@@ -103,6 +111,8 @@ async function run(answers: Partial<Answers>): Promise<string> {
 }
 
 describe('setup script', () => {
+  saveBaseBranch();
+
   const author = useTempGitUsername();
 
   describe('defaults', () => {
@@ -158,7 +168,7 @@ describe('setup script', () => {
     });
 
     it('should commit changes', async () => {
-      const gitLog = await sh('git log --oneline main..HEAD');
+      const gitLog = await sh(`git log --oneline ${baseBranch}..HEAD`);
       const lines = gitLog.split('\n');
       expect(lines).to.have.length(1);
       expect(lines[0]).to.contain('Configure template');
@@ -269,7 +279,7 @@ describe('setup script', () => {
     });
 
     it('should not create any new commits', async () => {
-      const gitLog = await sh('git log --oneline main..HEAD');
+      const gitLog = await sh(`git log --oneline ${baseBranch}..HEAD`);
       expect(gitLog).to.be.empty;
     });
 

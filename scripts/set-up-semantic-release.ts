@@ -36,7 +36,7 @@ const GITHUB_ACTIONS_RELEASE_JOB = (branch: string) => `
 
       - uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 18
 
       - name: Configure npm cache
         run: npm config set cache "$(pwd)/.npm-cache"
@@ -46,9 +46,6 @@ const GITHUB_ACTIONS_RELEASE_JOB = (branch: string) => `
           path: .npm-cache
           key: npm-cache-\${{ hashFiles('package-lock.json') }}
           restore-keys: npm-cache-
-
-      - name: Use npm@8
-        run: npm i -g npm@8
 
       - name: Install dependencies
         run: npm ci

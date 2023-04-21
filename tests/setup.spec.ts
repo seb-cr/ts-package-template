@@ -332,6 +332,7 @@ describe('setup script', () => {
       expect(gitStatus).to.equal([
         ' M .github/workflows/main.yml',
         'A  .github/workflows/pr.yml',
+        ' M .nycrc.yml',
         'A  .releaserc.yml',
         ' M README.md',
         ' M package-lock.json',

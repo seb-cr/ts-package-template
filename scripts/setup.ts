@@ -1,6 +1,6 @@
 #!/usr/bin/env npx ts-node
 import { ExecOptions, exec } from 'child_process';
-import { rmSync, writeFileSync } from 'fs';
+import { readFileSync, rmSync, writeFileSync } from 'fs';
 import { basename, dirname } from 'path';
 
 import chalk from 'chalk';
@@ -134,9 +134,15 @@ export async function setup(initialAnswers?: Partial<Answers>) {
       'chalk',
       '@octokit/rest',
     ];
+
     rmSync('scripts', { recursive: true });
     rmSync('tests/setup.spec.ts');
+
     await sh(`npm un ${dependencies.join(' ')}`);
+
+    // remove scripts from test coverage
+    const nycrc = readFileSync('.nycrc.yml').toString();
+    writeFileSync('.nycrc.yml', nycrc.replace('\n  - scripts/**\n', '\n'));
   });
 
   await step('Replacing README', () => {
@@ -175,6 +181,7 @@ export async function setup(initialAnswers?: Partial<Answers>) {
   console.log(`- ${nextSteps.join('\n- ')}\n`);
 }
 
+/* istanbul ignore if */
 if (module === require.main) {
   setup().catch((error) => {
     console.error(error);

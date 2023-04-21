@@ -109,6 +109,7 @@ export async function setUpSemanticRelease(answers: Answers): Promise<string[]> 
     `Protect your ${branch} branch`,
   ];
 
+  /* istanbul ignore if */
   if (isGitHubRepo) {
     let success = false;
 

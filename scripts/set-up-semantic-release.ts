@@ -21,10 +21,9 @@ branches:
   - { name: 'alpha', prerelease: true }
 `;
 
-const GITHUB_ACTIONS_RELEASE_JOB = (branch: string) => `
+const GITHUB_ACTIONS_RELEASE_JOB = `
   release:
     name: Release
-    if: github.ref == 'refs/heads/${branch}'
     needs:
       - test
       - lint
@@ -96,7 +95,7 @@ export async function setUpSemanticRelease(answers: Answers): Promise<string[]> 
 
   await step('Adding release job to .github/workflows/main.yml', () => {
     let content = readFileSync('.github/workflows/main.yml').toString();
-    content += GITHUB_ACTIONS_RELEASE_JOB(branch);
+    content += GITHUB_ACTIONS_RELEASE_JOB;
     writeFileSync('.github/workflows/main.yml', content);
   });
 

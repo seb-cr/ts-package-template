@@ -82,8 +82,7 @@ export async function setUpSemanticRelease(answers: Answers): Promise<string[]> 
   const branch = answers.semanticReleaseBranch;
 
   await step('Installing Semantic Release', async () => {
-    // v20 requires Node >=18
-    await sh('npm i -D semantic-release@19');
+    await sh('npm i -D semantic-release');
   });
 
   // `semantic-release` looks for the `master` branch by default

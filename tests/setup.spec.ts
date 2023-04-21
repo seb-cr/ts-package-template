@@ -43,10 +43,54 @@ inquirer.prompt = async (questions: Question[], answers: any) => {
 };
 
 let baseBranch: string;
+let hadStagedChanges = false;
+let hadUnstagedChanges = false;
 
-function saveBaseBranch() {
+function saveGitState() {
   before('save base branch name', async () => {
     baseBranch = await sh('git rev-parse --abbrev-ref HEAD');
+  });
+
+  before('save uncommitted changes', async () => {
+    try {
+      await sh('git commit -m "wip: staged changes"');
+      hadStagedChanges = true;
+    } catch {
+      hadStagedChanges = false;
+    }
+
+    try {
+      await sh('git commit -a -m "wip: unstaged changes"');
+      hadUnstagedChanges = true;
+    } catch {
+      hadUnstagedChanges = false;
+    }
+  });
+
+  after('restore uncommitted changes', async () => {
+    if (hadUnstagedChanges) {
+      // safety check
+      const log = await sh('git log --oneline -1');
+      if (!log.includes('wip: unstaged changes')) {
+        console.log(chalk.yellowBright('Unexpected commit when trying to restore unstaged changes!'));
+        return;
+      }
+
+      // uncommit and unstage
+      await sh('git reset --soft HEAD~1');
+      await sh('git reset HEAD');
+    }
+
+    if (hadStagedChanges) {
+      const log = await sh('git log --oneline -1');
+      if (!log.includes('wip: staged changes')) {
+        console.log(chalk.yellowBright('Unexpected commit when trying to restore staged changes!'));
+        return;
+      }
+
+      // uncommit and leave staged
+      await sh('git reset --soft HEAD~1');
+    }
   });
 }
 
@@ -111,7 +155,7 @@ async function run(answers: Partial<Answers>): Promise<string> {
 }
 
 describe('setup script', () => {
-  saveBaseBranch();
+  saveGitState();
 
   const author = useTempGitUsername();
 

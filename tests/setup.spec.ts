@@ -46,7 +46,7 @@ let baseBranch: string;
 
 function saveBaseBranch() {
   before('save base branch name', async () => {
-    baseBranch = await sh('git rev-parse HEAD');
+    baseBranch = await sh('git rev-parse --abbrev-ref HEAD');
   });
 }
 

@@ -27,7 +27,7 @@ const GITHUB_ACTIONS_RELEASE_JOB = `
     needs:
       - test
       - lint
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
         with:

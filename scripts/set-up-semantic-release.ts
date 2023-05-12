@@ -28,6 +28,10 @@ const GITHUB_ACTIONS_RELEASE_JOB = `
       - test
       - lint
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
     steps:
       - uses: actions/checkout@v3
         with:

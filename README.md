@@ -2,11 +2,9 @@
 
 A template for TypeScript packages.
 
-This repo has two branches:
+Related repos:
 
-- [`main`](https://github.com/seb-cr/ts-package-template): a minimal package
-
-- [`cli`](https://github.com/seb-cr/ts-package-template/tree/cli): starting point for a command-line app using [`commander`](https://github.com/tj/commander.js)
+- [ts-cli-template](https://github.com/seb-cr/ts-cli-template): starting point for a command-line app using [`commander`](https://github.com/tj/commander.js)
 
 ## Usage
 

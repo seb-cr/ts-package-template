@@ -49,6 +49,10 @@ let hadUnstagedChanges = false;
 function saveGitState() {
   before('save base branch name', async () => {
     baseBranch = await sh('git rev-parse --abbrev-ref HEAD');
+    // for debugging -- see README.md#known-issues
+    console.log('git status:', await sh('git status'));
+    console.log('git log:', await sh('git log'));
+    console.log('baseBranch:', baseBranch);
   });
 
   before('save uncommitted changes', async () => {

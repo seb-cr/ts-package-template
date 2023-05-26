@@ -17,6 +17,31 @@ npm i
 ./scripts/setup.ts
 ```
 
+## Known issues
+
+Sometimes when you create a new repo from this template, two of the setup tests fail on the initial commit.
+
+```plain
+  23 passing (34s)
+  2 failing
+
+  1) setup script
+       defaults
+         should commit changes:
+     AssertionError: expected '' to include 'Configure template'
+      at Context.<anonymous> (tests/setup.spec.ts:218:27)
+      at processTicksAndRejections (node:internal/process/task_queues:95:5)
+
+  2) setup script
+       defaults
+         should not leave uncommitted files:
+     AssertionError: expected 'M .github/workflows/main.yml\nA  .git…' to be empty
+      at Context.<anonymous> (tests/setup.spec.ts:223:30)
+      at processTicksAndRejections (node:internal/process/task_queues:95:5)
+```
+
+Don't worry about this. It seems to happen the very first time the repo is checked out by GitHub Actions. If you don't want a red cross against your initial commit, you can rerun the test job and it should succeed.
+
 ## Development notes
 
 ### Linting

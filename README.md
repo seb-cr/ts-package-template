@@ -82,7 +82,7 @@ This template repo is not set up to publish. Follow the steps below to automate 
 
 3. Configure your repo to use the Squash and Merge strategy.
 
-   > The setup script will attempt to this for you if your Git client is configured to use an auth token over HTTPS.
+   > The setup script will attempt to do this for you if your Git client is configured to use an auth token over HTTPS.
 
    Go to **Settings** > **General** > **Pull Requests** and untick *Allow merge commits* and *Allow rebase merging*, so that only *Allow squash merging* is enabled. Also enable *Default to PR title for squash merge commits*.
 

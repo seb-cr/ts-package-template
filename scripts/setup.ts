@@ -14,6 +14,7 @@ export type Answers = {
   packageAuthor: string;
   packageLicense: string;
   packageRepository: string;
+  packagePublishConfigAccess: string;
   semanticRelease: boolean;
   semanticReleaseBranch: string;
   commit: boolean;
@@ -92,6 +93,16 @@ export async function setup(initialAnswers?: Partial<Answers>) {
       default: gitRemote,
     },
     {
+      type: 'list',
+      name: 'packagePublishConfigAccess',
+      message: 'Package access:',
+      default: packageJson.publishConfig.access,
+      choices: [
+        'public',
+        'restricted',
+      ],
+    },
+    {
       type: 'confirm',
       name: 'semanticRelease',
       message: 'Set up Semantic Release?',
@@ -124,6 +135,7 @@ export async function setup(initialAnswers?: Partial<Answers>) {
     packageJson.author = answers.packageAuthor;
     packageJson.license = answers.packageLicense;
     packageJson.repository.url = `git+${answers.packageRepository}`;
+    packageJson.publishConfig.access = answers.packagePublishConfigAccess;
     writeFileSync('package.json', JSON.stringify(packageJson, null, 2));
   });
 

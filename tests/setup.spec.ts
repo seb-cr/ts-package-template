@@ -197,6 +197,10 @@ describe('setup script', () => {
       expect(result).to.contain(`? Repository: ${gitRemote}\n`);
     });
 
+    it('should default package access to "public"', async () => {
+      expect(result).to.contain('? Package access: public\n');
+    });
+
     it('should default the release branch to the current git branch', () => {
       expect(result).to.contain(`? Main release branch: ${branch}\n`);
     });
@@ -235,6 +239,7 @@ describe('setup script', () => {
       description: 'An example package',
       license: 'example-license',
       repository: 'https://example.com/package',
+      access: 'restricted',
     };
 
     useTempGitBranch();
@@ -249,6 +254,7 @@ describe('setup script', () => {
         packageDescription: params.description,
         packageLicense: params.license,
         packageRepository: params.repository,
+        packagePublishConfigAccess: params.access,
         semanticRelease: false,
         commit: false,
       });
@@ -276,6 +282,10 @@ describe('setup script', () => {
 
     it('should set repository', () => {
       expect(packageJson.repository.url).to.equal(`git+${params.repository}`);
+    });
+
+    it('should set package access', () => {
+      expect(packageJson.publishConfig.access).to.equal(params.access);
     });
   });
 

@@ -98,22 +98,33 @@ function saveGitState() {
   });
 }
 
-function useTempGitUsername(): string {
+function useTempGitAuthor(): string {
   const name = `Test user ${Math.floor(Math.random() * 1E6)}`;
+  const email = 'test@example.com';
   let oldName: string;
+  let oldEmail: string;
 
-  before('configure git username', async () => {
+  before('configure git author', async () => {
     try {
       oldName = await sh('git config user.name');
     } catch {
       oldName = '';
     }
+    try {
+      oldEmail = await sh('git config user.email');
+    } catch {
+      oldEmail = '';
+    }
     await sh(`git config user.name "${name}"`);
+    await sh(`git config user.email "${email}"`);
   });
 
-  after('restore git username', async () => {
+  after('restore git author', async () => {
     if (oldName) {
       await sh(`git config user.name "${oldName}"`);
+    }
+    if (oldEmail) {
+      await sh(`git config user.email "${oldEmail}"`);
     }
   });
 
@@ -166,7 +177,7 @@ async function run(answers: Partial<Answers>): Promise<string> {
 describe('setup script', () => {
   saveGitState();
 
-  const author = useTempGitUsername();
+  const author = useTempGitAuthor();
 
   describe('defaults', () => {
     const branch = useTempGitBranch();

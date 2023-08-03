@@ -155,7 +155,12 @@ async function run(answers: Partial<Answers>): Promise<string> {
     console.log = oldConsoleLog;
     chalk.level = oldChalkLevel;
   }
-  return output.map((line) => `${line.map((it) => `${it}`).join(' ')}\n`).join('');
+  const result = output
+    .map((line) => `${line.map((it) => `${it}`).join(' ')}\n`)
+    .join('');
+  // log it for debugging when something goes wrong
+  console.log(`output: ${result}\n`);
+  return result;
 }
 
 describe('setup script', () => {

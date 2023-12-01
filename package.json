@@ -27,7 +27,7 @@
   "devDependencies": {
     "@comicrelief/eslint-config": "^2.0.3",
     "@istanbuljs/nyc-config-typescript": "^1.0.2",
-    "@octokit/rest": "^19.0.13",
+    "@octokit/rest": "^20.0.2",
     "@types/chai": "^4.3.11",
     "@types/inquirer": "^8.2.10",
     "@types/mocha": "^10.0.6",

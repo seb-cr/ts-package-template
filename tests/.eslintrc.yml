@@ -1,2 +1,7 @@
 extends:
   - '@comicrelief/eslint-config/mixins/mocha'
+
+overrides:
+  - files: loader.js
+    rules:
+       jsdoc/require-jsdoc: off

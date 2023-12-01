@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { greet } from '@/src';
+import { greet } from '@/src/index.js';
 
 describe('greet', () => {
   context('with a name specified', () => {

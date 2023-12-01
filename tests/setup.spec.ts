@@ -1,11 +1,12 @@
 import { existsSync, readFileSync } from 'fs';
 import { basename, dirname } from 'path';
+import { fileURLToPath } from 'url';
 
 import { expect } from 'chai';
 import chalk from 'chalk';
 import inquirer, { Question } from 'inquirer';
 
-import { Answers, setup, sh } from '../scripts/setup';
+import { Answers, setup, sh } from '../scripts/setup.js';
 
 /*
   eslint-disable
@@ -178,7 +179,7 @@ describe('setup script', () => {
     });
 
     it('should default package name to the directory name', () => {
-      const dir = basename(dirname(__dirname));
+      const dir = basename(dirname(dirname(fileURLToPath(import.meta.url))));
       expect(result).to.contain(`? Package name: ${dir}\n`);
     });
 

@@ -1,6 +1,6 @@
-import { existsSync, readFileSync } from 'fs';
-import { basename, dirname } from 'path';
-import { fileURLToPath } from 'url';
+import { existsSync, readFileSync } from 'node:fs';
+import { basename, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 import { expect } from 'chai';
 import chalk from 'chalk';

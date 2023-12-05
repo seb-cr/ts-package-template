@@ -1,8 +1,8 @@
 #!/usr/bin/env npx ts-node
-import { ExecOptions, exec } from 'child_process';
-import { readFileSync, rmSync, writeFileSync } from 'fs';
-import { basename, dirname } from 'path';
-import { fileURLToPath } from 'url';
+import { ExecOptions, exec } from 'node:child_process';
+import { readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { basename, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 import chalk from 'chalk';
 import esMain from 'es-main';

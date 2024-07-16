@@ -27,23 +27,23 @@
   "devDependencies": {
     "@comicrelief/eslint-config": "^2.0.3",
     "@istanbuljs/nyc-config-typescript": "^1.0.2",
-    "@octokit/rest": "^20.0.2",
-    "@types/chai": "^4.3.11",
+    "@octokit/rest": "^20.1.1",
+    "@types/chai": "^4.3.16",
     "@types/inquirer": "^8.2.10",
-    "@types/mocha": "^10.0.6",
-    "@types/node": "^20.11.30",
+    "@types/mocha": "^10.0.7",
+    "@types/node": "^20.14.10",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",
-    "chai": "^4.3.10",
+    "chai": "^4.4.1",
     "chalk": "^4.1.2",
-    "eslint": "^8.54.0",
-    "eslint-plugin-import": "^2.29.0",
+    "eslint": "^8.57.0",
+    "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-jsdoc": "^39.9.1",
     "inquirer": "^8.2.6",
-    "mocha": "^10.2.0",
+    "mocha": "^10.6.0",
     "nyc": "^15.1.0",
-    "ts-node": "^10.9.1",
+    "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
-    "typescript": "^5.3.2"
+    "typescript": "^5.5.3"
   }
 }

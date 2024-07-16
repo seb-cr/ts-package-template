@@ -8,14 +8,48 @@ Related repos:
 
 ## Usage
 
-Click the **Use this template** button, or copy the contents of this repo into your project as the initial commit.
+This is the `commonjs` branch, which provides a means of creating CommonJS packages for applications that do not yet support ESM. Its usage is more involved than the [default ESM version](https://github.com/seb-cr/ts-package-template).
 
-Then install dependencies and run the setup script to configure the template for your project:
+1. Clone this repo and checkout the `commonjs` branch.
 
-```sh
-npm i
-./scripts/setup.ts
-```
+   ```sh
+   git clone https://github.com/seb-cr/ts-package-template.git
+   cd ts-package-template
+   git checkout commonjs
+   ```
+
+2. Create a new directory for your package and initialise Git.
+
+   ```sh
+   cd ..
+   mkdir my-new-package
+   cd my-new-package
+   git init
+   ```
+
+3. Create your repo on GitHub and set it as the remote.
+
+   ```sh
+   git remote add origin https://github.com/yourname/my-new-package.git
+   git branch -m main
+   ```
+
+   The setup script in step 5 will use this to configure some aspects of your `package.json`.
+
+4. Copy the contents of the template into your repo, and commit it.
+
+   ```sh
+   (cd ../ts-package-template && git archive HEAD) | tar -xpf -
+   git add .
+   git commit -m "Initial commit"
+   ```
+
+5. Install dependencies and run the setup script to configure the template for your project:
+
+   ```sh
+   npm i
+   ./scripts/setup.ts
+   ```
 
 ## Known issues
 

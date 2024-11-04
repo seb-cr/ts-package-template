@@ -9,6 +9,14 @@ import {
   warn,
 } from './setup.js';
 
+/**
+ * Locked to v24 since major releases tend to drop Node versions.
+ *
+ * Check the Semantic Release release log before incrementing:
+ * https://github.com/semantic-release/semantic-release/releases
+ */
+const SEMANTIC_RELEASE_VERSION = '24';
+
 const SEMANTIC_RELEASE_CONFIG = (branch: string) => `# Semantic Release config
 # See https://semantic-release.gitbook.io/semantic-release/usage/configuration
 
@@ -85,8 +93,7 @@ export async function setUpSemanticRelease(answers: Answers): Promise<string[]> 
   const branch = answers.semanticReleaseBranch;
 
   await step('Installing Semantic Release', async () => {
-    // locked to v24 since major releases tend to drop Node versions
-    await sh('npm i -D semantic-release@24');
+    await sh(`npm i -D semantic-release@${SEMANTIC_RELEASE_VERSION}`);
   });
 
   // `semantic-release` looks for the `master` branch by default

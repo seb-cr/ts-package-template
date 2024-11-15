@@ -72,6 +72,9 @@ const GITHUB_ACTIONS_PR_CHECK = `name: PR checks
 
 on: pull_request
 
+permissions:
+  pull-requests: read
+
 jobs:
   # https://github.com/amannn/action-semantic-pull-request#readme
   semantic-pr:

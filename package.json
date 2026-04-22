@@ -29,7 +29,7 @@
     "@comicrelief/eslint-config": "^2.0.3",
     "@istanbuljs/esm-loader-hook": "^0.2.0",
     "@istanbuljs/nyc-config-typescript": "^1.0.2",
-    "@octokit/rest": "^21.1.1",
+    "@octokit/rest": "^22.0.1",
     "@types/chai": "^5.2.3",
     "@types/inquirer": "^9.0.9",
     "@types/mocha": "^10.0.10",

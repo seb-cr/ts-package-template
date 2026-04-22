@@ -41,18 +41,18 @@ const GITHUB_ACTIONS_RELEASE_JOB = `
       issues: write
       pull-requests: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version: 24
 
       - name: Configure npm cache
         run: npm config set cache "$(pwd)/.npm-cache"
 
-      - uses: actions/cache@v4
+      - uses: actions/cache@v5
         with:
           path: .npm-cache
           key: npm-cache-\${{ hashFiles('package-lock.json') }}
@@ -83,7 +83,7 @@ jobs:
     steps:
       # Please look up the latest version from
       # https://github.com/amannn/action-semantic-pull-request/releases
-      - uses: amannn/action-semantic-pull-request@v5
+      - uses: amannn/action-semantic-pull-request@v6
         env:
           GITHUB_TOKEN: \${{ secrets.GITHUB_TOKEN }}
 `;

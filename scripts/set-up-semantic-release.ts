@@ -47,7 +47,7 @@ const GITHUB_ACTIONS_RELEASE_JOB = `
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
 
       - name: Configure npm cache
         run: npm config set cache "$(pwd)/.npm-cache"

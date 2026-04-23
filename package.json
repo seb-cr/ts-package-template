@@ -24,7 +24,7 @@
     "build": "tsc -p tsconfig-build.json",
     "clean": "rm -rf dist",
     "lint": "eslint src tests",
-    "mocha": "mocha --node-option loader=@istanbuljs/esm-loader-hook --node-option loader=ts-node/esm --require tests/setup.ts",
+    "mocha": "mocha --require tests/setup.ts",
     "test": "npm run mocha -- 'tests/**/*.spec.ts'",
     "coverage": "nyc npm test"
   },

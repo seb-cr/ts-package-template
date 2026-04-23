@@ -1,0 +1,3 @@
+loader:
+  - '@istanbuljs/esm-loader-hook'
+  - ts-node/esm

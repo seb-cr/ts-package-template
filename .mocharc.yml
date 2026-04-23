@@ -1,3 +1,6 @@
 loader:
   - '@istanbuljs/esm-loader-hook'
   - ts-node/esm
+
+require:
+  - tests/setup.ts

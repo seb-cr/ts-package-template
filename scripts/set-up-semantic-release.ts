@@ -15,7 +15,7 @@ import {
  * Check the Semantic Release release log before incrementing:
  * https://github.com/semantic-release/semantic-release/releases
  */
-const SEMANTIC_RELEASE_VERSION = '24';
+const SEMANTIC_RELEASE_VERSION = '25';
 
 const SEMANTIC_RELEASE_CONFIG = (branch: string) => `# Semantic Release config
 # See https://semantic-release.gitbook.io/semantic-release/usage/configuration

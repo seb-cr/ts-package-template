@@ -11,6 +11,7 @@
     "declaration": true,
     "declarationMap": true,
     "outDir": "dist",
+    "types": ["node", "mocha"],
     /* Additional Checks */
     "noUnusedLocals": true,
     "noImplicitReturns": true,

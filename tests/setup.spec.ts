@@ -4,9 +4,9 @@ import { fileURLToPath } from 'node:url';
 
 import { expect } from 'chai';
 import chalk from 'chalk';
-import inquirer, { Question } from 'inquirer';
+import inquirer, { type Question } from 'inquirer';
 
-import { Answers, setup, sh } from '../scripts/setup.js';
+import { type Answers, setup, sh } from '../scripts/setup.js';
 
 /*
   eslint-disable

@@ -20,7 +20,7 @@
     "#src/*": "./src/*"
   },
   "scripts": {
-    "prepare": "echo Cleaning && npm run clean && echo Building && npm run build && echo Done",
+    "prepare": "npm run clean && npm run build",
     "build": "tsc -p tsconfig-build.json",
     "clean": "rm -rf dist",
     "lint": "eslint src tests",

@@ -1,4 +1,4 @@
-import { existsSync, readFileSync, unlinkSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { basename, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -131,21 +131,9 @@ function useTempGitBranch(): string {
     await sh('git reset --hard');
     await sh(`git checkout ${baseBranch}`);
     await sh(`git branch -D ${branch}`);
-    // Currently erroring in some test cases when running the "prepare" script.
-    // Installation is still successful, so ignore and log for now.
-    try {
-      await sh('npm i 1>test-npm-stdout.log 2>test-npm-stderr.log');
-    } catch (error: any) {
-      console.log(`warning: "npm i" failed with exit code ${error.code}`);
-      return;
-    } finally {
-      // debugging
-      console.log(readFileSync('test-npm-stdout.log').toString());
-      console.log(readFileSync('test-npm-stderr.log').toString());
-      // clean up, else test for no uncommitted files fails
-      unlinkSync('test-npm-stdout.log');
-      unlinkSync('test-npm-stderr.log');
-    }
+    // Sometimes the `prepare` script fails to run in certain test cases.
+    // Looks like a bug in npm, and can be avoided using `--ignore-scripts`.
+    await sh('npm i --ignore-scripts');
     if (process.stdout.isTTY) {
       process.stdout.moveCursor(0, -1);
       process.stdout.clearLine(0);

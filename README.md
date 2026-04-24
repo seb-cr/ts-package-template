@@ -31,7 +31,7 @@ Run all tests using `npm test`, or `npm run coverage` to see test coverage.
 
 Individual test specs can also be run using the `mocha` command: `npx mocha tests/example.spec.ts`.
 
-Inside your tests, you can import `src` modules using the `@/src` path map, which saves having to write `../../../../src` in deep test directories.
+Inside your tests, you can import `src/*` modules using the `#src/*` path map, which saves having to write `../../../../src` in deep test directories.
 
 Tests are run using [`ts-node`](https://typestrong.org/ts-node/docs/) and [`mocha`](https://mochajs.org), and coverage is provided by [`nyc`](https://istanbul.js.org).
 

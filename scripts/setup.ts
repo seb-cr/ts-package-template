@@ -1,4 +1,4 @@
-#!/usr/bin/env npx ts-node
+#!/usr/bin/env node --loader=ts-node/esm
 import { ExecOptions, exec } from 'node:child_process';
 import { readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { basename, dirname } from 'node:path';

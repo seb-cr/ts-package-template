@@ -29,7 +29,7 @@ Linting is done by [ESLint](https://eslint.org) using [`@comicrelief/eslint-conf
 
 Run all tests using `npm test`, or `npm run coverage` to see test coverage.
 
-Individual test specs can also be run using the `mocha` script: `npm run mocha -- tests/example.spec.ts`.
+Individual test specs can also be run using the `mocha` command: `npx mocha tests/example.spec.ts`.
 
 Inside your tests, you can import `src` modules using the `@/src` path map, which saves having to write `../../../../src` in deep test directories.
 

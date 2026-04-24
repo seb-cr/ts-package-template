@@ -58,10 +58,6 @@ function saveGitState() {
       // detached HEAD state -- use commit hash instead
       baseBranch = await sh('git rev-parse HEAD');
     }
-    // for debugging -- see README.md#known-issues
-    console.log('git status:', await sh('git status'));
-    console.log('git log:', await sh('git log'));
-    console.log('baseBranch:', baseBranch);
   });
 
   after('restore uncommitted changes', async () => {

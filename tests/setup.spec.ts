@@ -63,6 +63,9 @@ function saveGitState() {
   after('restore uncommitted changes', async () => {
     const log = await sh('git log --oneline -2');
     const [firstCommit, secondCommit] = log.split('\n');
+    if (!firstCommit || !secondCommit) {
+      throw new Error('expected commits are missing from git-log output');
+    }
 
     // restore unstaged changes
     if (!firstCommit.includes('wip: unstaged changes')) {

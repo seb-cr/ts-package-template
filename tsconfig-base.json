@@ -16,7 +16,6 @@
     "noUnusedLocals": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
   },
   "ts-node": {

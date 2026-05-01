@@ -155,9 +155,10 @@ export async function setUpSemanticRelease(answers: Answers): Promise<string[]> 
           owner,
           repo,
           allow_squash_merge: true,
-          use_squash_pr_title_as_default: true,
           allow_merge_commit: false,
           allow_rebase_merge: false,
+          squash_merge_commit_title: 'PR_TITLE',
+          squash_merge_commit_message: 'PR_BODY',
         });
         success = true;
       } catch (error) {

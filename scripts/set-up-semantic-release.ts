@@ -134,6 +134,11 @@ export async function setUpSemanticRelease(answers: Answers): Promise<string[]> 
         .replace(/.git$/, '')
         .split('/');
 
+      if (!owner || !repo) {
+        warn('GitHub repo URL is malformed!');
+        return;
+      }
+
       const creds = await sh('echo "protocol=https\nhost=github.com" | git credential fill');
       const authToken = creds.split('\n')
         .find((it) => it.startsWith('password='))

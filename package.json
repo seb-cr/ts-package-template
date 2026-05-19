@@ -17,7 +17,10 @@
     "access": "public"
   },
   "imports": {
-    "#src/*": "./src/*"
+    "#src/*": {
+      "ts-package-template-dev": "./src/*",
+      "default": "./dist/*"
+    }
   },
   "scripts": {
     "prepare": "npm run clean && npm run build",

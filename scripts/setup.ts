@@ -130,6 +130,9 @@ export async function setup(initialAnswers?: Partial<Answers>) {
 
   console.log();
 
+  const templateDevCondition = 'ts-package-template-dev';
+  const devCondition = `${answers.packageName}-dev`;
+
   await step('Updating package.json', () => {
     packageJson.name = answers.packageName;
     packageJson.description = answers.packageDescription;
@@ -137,7 +140,42 @@ export async function setup(initialAnswers?: Partial<Answers>) {
     packageJson.license = answers.packageLicense;
     packageJson.repository.url = `git+${answers.packageRepository}`;
     packageJson.publishConfig.access = answers.packagePublishConfigAccess;
+
+    const srcImports = packageJson.imports['#src/*'];
+    const srcImportTarget = srcImports[templateDevCondition];
+    delete srcImports[templateDevCondition];
+    srcImports[devCondition] = srcImportTarget;
+
+    const testImports = packageJson.imports['#tests/*'];
+    const testImportTarget = testImports[templateDevCondition];
+    delete testImports[templateDevCondition];
+    testImports[devCondition] = testImportTarget;
+
     writeFileSync('package.json', JSON.stringify(packageJson, null, 2));
+  });
+
+  await step('Updating tsconfig-base.json', () => {
+    let tsconfig = readFileSync('tsconfig-base.json').toString();
+
+    const pattern = (condition: string) => `"customConditions": ["${condition}"]`;
+    tsconfig = tsconfig.replaceAll(
+      pattern(templateDevCondition),
+      pattern(devCondition),
+    );
+
+    writeFileSync('tsconfig-base.json', tsconfig);
+  });
+
+  await step('Updating .mocharc.yml', () => {
+    let mocharc = readFileSync('.mocharc.yml').toString();
+
+    const pattern = (condition: string) => `conditions=${condition}`;
+    mocharc = mocharc.replaceAll(
+      pattern(templateDevCondition),
+      pattern(devCondition),
+    );
+
+    writeFileSync('.mocharc.yml', mocharc);
   });
 
   await step('Removing scripts', async () => {

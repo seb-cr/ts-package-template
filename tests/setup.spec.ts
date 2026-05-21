@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url';
 import { expect } from 'chai';
 import chalk from 'chalk';
 import inquirer, { type Question } from 'inquirer';
+import { parseConfigFileTextToJson as tsParseJSON } from 'typescript';
 
 import { type Answers, setup, sh } from '../scripts/setup.js';
 
@@ -236,7 +237,7 @@ describe('setup script', () => {
     });
   });
 
-  describe('changes to package.json', () => {
+  describe('changes to configuration files', () => {
     const params = {
       name: 'example-name',
       author: 'Example Author',
@@ -247,8 +248,6 @@ describe('setup script', () => {
     };
 
     useTempGitBranch();
-
-    let packageJson: any;
 
     before('run setup script', async function () {
       this.timeout(60_000);
@@ -264,32 +263,78 @@ describe('setup script', () => {
       });
     });
 
-    before('read package.json', () => {
-      packageJson = JSON.parse(readFileSync('package.json').toString());
+    describe('package.json', () => {
+      let packageJson: any;
+
+      before('read package.json', () => {
+        packageJson = JSON.parse(readFileSync('package.json').toString());
+      });
+
+      it('should set name', () => {
+        expect(packageJson.name).to.equal(params.name);
+      });
+
+      it('should set author', () => {
+        expect(packageJson.author).to.equal(params.author);
+      });
+
+      it('should set description', () => {
+        expect(packageJson.description).to.equal(params.description);
+      });
+
+      it('should set license', () => {
+        expect(packageJson.license).to.equal(params.license);
+      });
+
+      it('should set repository', () => {
+        expect(packageJson.repository.url).to.equal(`git+${params.repository}`);
+      });
+
+      it('should set package access', () => {
+        expect(packageJson.publishConfig.access).to.equal(params.access);
+      });
+
+      it('should update custom conditions to match package name', () => {
+        Object.entries(packageJson.imports).forEach(([path, target]) => {
+          expect(target, `"${path}" imports should be conditonal`)
+            .to.be.an('object');
+          expect(target, `"${path}" should have condition matching package name`)
+            .to.include.keys('example-name-dev');
+          expect(target, `"${path}" should no longer have template condition`)
+            .not.to.include.keys('ts-package-template-dev');
+        });
+      });
     });
 
-    it('should set name', () => {
-      expect(packageJson.name).to.equal(params.name);
+    describe('tsconfig-base.json', () => {
+      let tsconfig: any;
+
+      before('read tsconfig-base.json', () => {
+        // can't use `JSON.parse` because tsconfig supports comments
+        const contents = readFileSync('tsconfig-base.json').toString();
+        const parseResult = tsParseJSON('', contents);
+        if (parseResult.error) {
+          throw new SyntaxError(parseResult.error.messageText.toString());
+        }
+        tsconfig = parseResult.config;
+      });
+
+      it('should update custom conditions to match package name', () => {
+        expect(tsconfig.compilerOptions.customConditions).to.deep.equal(['example-name-dev']);
+      });
     });
 
-    it('should set author', () => {
-      expect(packageJson.author).to.equal(params.author);
-    });
+    describe('.mocharc.yml', () => {
+      let mocharc: string;
 
-    it('should set description', () => {
-      expect(packageJson.description).to.equal(params.description);
-    });
+      before('read tsconfig-base.json', () => {
+        mocharc = readFileSync('.mocharc.yml').toString();
+      });
 
-    it('should set license', () => {
-      expect(packageJson.license).to.equal(params.license);
-    });
-
-    it('should set repository', () => {
-      expect(packageJson.repository.url).to.equal(`git+${params.repository}`);
-    });
-
-    it('should set package access', () => {
-      expect(packageJson.publishConfig.access).to.equal(params.access);
+      it('should update custom conditions to match package name', () => {
+        expect(mocharc).to.contain('conditions=example-name-dev');
+        expect(mocharc).not.to.contain('conditions=ts-package-template-dev');
+      });
     });
   });
 

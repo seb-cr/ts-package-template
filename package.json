@@ -20,6 +20,10 @@
     "#src/*": {
       "ts-package-template-dev": "./src/*",
       "default": "./dist/*"
+    },
+    "#tests/*": {
+      "ts-package-template-dev": "./tests/*",
+      "default": null
     }
   },
   "scripts": {

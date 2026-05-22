@@ -26,7 +26,7 @@ jobs:
           restore-keys: npm-cache-
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --ignore-scripts --no-audit --no-fund
 
       - name: Run ESLint
         run: npm run lint
@@ -51,7 +51,10 @@ jobs:
           restore-keys: npm-cache-
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --ignore-scripts --no-audit --no-fund
+
+      - name: Check types
+        run: npx tsc --noEmit
 
       - name: Run tests
         run: npm run coverage

@@ -59,7 +59,7 @@ const GITHUB_ACTIONS_RELEASE_JOB = `
           restore-keys: npm-cache-
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --ignore-scripts --no-audit --no-fund
 
       - name: Release
         run: npx semantic-release

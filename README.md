@@ -51,11 +51,12 @@ This template repo is not set up to publish. Follow the steps below to automate 
 
 1. In the setup script, say yes to `Set up Semantic Release?`
 
-2. Configure your repo to use the Squash and Merge strategy.
+2. Configure your repo to use the squash merge strategy for pull requests.
 
+   > [!NOTE]
    > The setup script will attempt to do this for you if your Git client is configured to use an auth token over HTTPS.
 
-   On GitHub, go to your repo > **Settings** > **General** > **Pull Requests** and untick *Allow merge commits* and *Allow rebase merging*, so that only *Allow squash merging* is enabled. Also enable *Default to PR title for squash merge commits*.
+   On GitHub, go to your repo > **Settings** > **General** > **Pull Requests** and untick *Allow merge commits* and *Allow rebase merging*, so that only *Allow squash merging* is enabled. Set the default commit message to *Pull request title and description*.
 
 3. If you haven't already done so, make sure you've also protected your main branch. Any commits pushed to this branch will now trigger a release.
 

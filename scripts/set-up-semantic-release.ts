@@ -40,6 +40,8 @@ const GITHUB_ACTIONS_RELEASE_JOB = `
       contents: write
       issues: write
       pull-requests: write
+      # TODO: after your first release, uncomment the line below
+      #id-token: write
     steps:
       - uses: actions/checkout@v6
         with:
@@ -48,6 +50,9 @@ const GITHUB_ACTIONS_RELEASE_JOB = `
       - uses: actions/setup-node@v6
         with:
           node-version: 24
+
+      - name: Update npm
+        run: npm i -g npm@latest
 
       - name: Configure npm cache
         run: npm config set cache "$(pwd)/.npm-cache"
@@ -64,8 +69,10 @@ const GITHUB_ACTIONS_RELEASE_JOB = `
       - name: Release
         run: npx semantic-release
         env:
-          NPM_TOKEN: \${{ secrets.NPM_TOKEN }}
           GITHUB_TOKEN: \${{ secrets.GITHUB_TOKEN }}
+          # TODO: after your first release, remove \`NPM_TOKEN\` and set up a
+          # trusted publisher instead
+          NPM_TOKEN: \${{ secrets.NPM_TOKEN }}
 `;
 
 const GITHUB_ACTIONS_PR_CHECK = `name: PR checks
@@ -120,8 +127,9 @@ export async function setUpSemanticRelease(answers: Answers): Promise<string[]> 
   });
 
   const nextSteps = [
-    'Add your npm token to your repo secrets',
+    'Generate an npm token and add to your repo secrets',
     `Protect your ${branch} branch`,
+    'After your first release, set up trusted publishing',
   ];
 
   /* istanbul ignore if */

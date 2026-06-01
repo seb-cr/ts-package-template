@@ -49,7 +49,7 @@ const GITHUB_ACTIONS_RELEASE_JOB = `
 
       - uses: actions/setup-node@v6
         with:
-          node-version: 24
+          node-version-file: .nvmrc
 
       - name: Update npm
         run: npm i -g npm@latest
